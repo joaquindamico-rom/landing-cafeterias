@@ -12,7 +12,7 @@ Que quien está por abrir entienda en segundos: "vos ocupate del negocio, yo me 
 - Términos del mundo café reales: carta, barra, take away, rótulo, escaparate, vitrina, alérgenos, flat white.
 
 ## Dirección visual
-- Editorial europeo / póster / serigrafía / papel e tintas. Nada de estética SaaS o startup.
+- Editorial europeo / póster / papel e tintas. Nada de estética SaaS o startup.
 - Paleta: papel cálido `--paper`, negro `--ink`, un acento fuerte `--accent` (azul). Rosa `--ink-b` solo como segunda tinta puntual.
 - Tipografía: Archivo (variable, eje de ancho: condensada 62 para titulares en mayúsculas, expandida 125 para frases) + Instrument Sans para texto.
 - Contraste de escalas: titulares enormes + textos pequeños editoriales.
