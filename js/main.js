@@ -10,6 +10,7 @@ const hl = str => esc(str).replace(/\*(.+?)\*/g, '<mark class="hl">$1</mark>');
 const wa = text => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const fine = matchMedia("(hover:hover) and (pointer:fine)").matches;
+const variant = document.body.dataset.variant === "ig" ? "ig" : "full";
 document.documentElement.lang = LANG;
 document.documentElement.classList.add("js");
 
@@ -23,9 +24,10 @@ function render(){
   const t = T();
   document.documentElement.lang = LANG;
 
+  const navLinks = t.nav.filter(([h])=> variant==="full" || h!=="#proyectos");
   $("#head").innerHTML = `<div class="wrap">
     <a class="brand" href="#inicio">${esc(CONFIG.name)} <small>${esc(CONFIG.tagline)}</small></a>
-    <nav class="nav" aria-label="Principal">${t.nav.map(([h,l])=>`<a class="nl" href="${h}">${esc(l)}</a>`).join("")}
+    <nav class="nav" aria-label="Principal">${navLinks.map(([h,l])=>`<a class="nl" href="${h}">${esc(l)}</a>`).join("")}
       <a class="btn mag" href="#contacto">${esc(t.navCta)} <span class="arr">→</span></a></nav></div>`;
 
   const h = t.hero, c = t.collage;
@@ -77,6 +79,7 @@ function render(){
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track">${[0,1].map(()=>t.marquee1.map(w=>`<span>${esc(w)}</span>`).join("")).join("")}</div></div>
 
+  ${variant!=="full" ? "" : `
   <!-- 2 PROBLEMA -->
   <section class="problem${reduced?" static":""}" id="problema">
     <div class="problem-stage">
@@ -100,7 +103,7 @@ function render(){
       <div class="bar"><span class="knob">↔</span></div>
     </div>
     <div class="ba-foot"><span>${esc(t.beforeAfter.hint)}</span><span>${esc(t.beforeAfter.note)}</span></div>
-  </div></section>
+  </div></section>`}
 
   <!-- 3 SERVICIOS -->
   <section id="servicios"><div class="wrap">
@@ -156,6 +159,7 @@ function render(){
     <p class="big-quote rv">${t.process.quote}</p>
   </div></section>
 
+  ${variant!=="full" ? "" : `
   <!-- 6 PROYECTOS -->
   <section id="proyectos"><div class="wrap">
     <div class="sec-head services-intro">
@@ -191,7 +195,7 @@ function render(){
       <div class="ink-x"><b>${esc(t.why.inkX)}</b></div>
       <div class="eq" aria-hidden="true">${t.why.eq.map(w=> w==="×"?`<i>×</i>`:`<span>${esc(w)}</span>`).join("")}</div>
     </div>
-  </div></section>
+  </div></section>`}
 
   <div class="marquee alt rev" aria-hidden="true"><div class="marquee-track">${[0,1].map(()=>t.marquee1.slice().reverse().map(w=>`<span>${esc(w)}</span>`).join("")).join("")}</div></div>
 
@@ -212,6 +216,7 @@ function render(){
     <div class="pk-foot"><p>${esc(t.packages.note)}</p></div>
   </div></section>
 
+  ${variant!=="full" ? "" : `
   <!-- 9 PARTNERS (enlace directo: #partners) -->
   <section class="partners" id="partners"><div class="wrap">
     <div style="display:grid;gap:22px">
@@ -224,7 +229,7 @@ function render(){
       <a class="btn mag" target="_blank" rel="noopener" href="${wa(t.partners.waText)}">${esc(t.partners.cta)} <span class="arr">→</span></a>
       <button class="share" id="share" type="button">${esc(t.partners.share)}</button>
     </div>
-  </div></section>
+  </div></section>`}
 
   <!-- 10 CTA FINAL -->
   <section class="final" id="contacto"><div class="wrap">
@@ -249,13 +254,14 @@ function render(){
     <span class="lang">${t.footer.langs.map(([k,l])=>`<button type="button" data-lang="${k}" ${CONTENT[k]?"":"disabled title=\"Próximamente\""}>${l}</button>`).join(" / ")}</span>
   </div></footer>
 
+  ${variant!=="full" ? "" : `
   <div class="pj-overlay" id="pjo" hidden role="dialog" aria-modal="true" aria-labelledby="pjTitle">
     <div class="pj-panel" id="pjPanel"><div class="wrap">
       <div class="pj-bar"><span class="lab" id="pjCount"></span><div class="nav-btns"><button type="button" id="pjPrev" aria-label="Anterior">${t.projects.prev}</button><button type="button" id="pjNext" aria-label="Siguiente">${t.projects.next}</button><button type="button" id="pjClose">${esc(t.projects.close)} ✕</button></div></div>
       <div class="pj-head"><h3 class="d d-cond" id="pjTitle"></h3><div style="display:grid;gap:16px"><p class="lead" id="pjDesc" style="margin:0"></p><dl id="pjMeta"></dl></div></div>
       <div class="pj-imgs" id="pjImgs"></div>
     </div></div>
-  </div>`;
+  </div>`}`;
 
   // JSON-LD SEO
   let ld = $("#ld"); if(!ld){ ld = document.createElement("script"); ld.type="application/ld+json"; ld.id="ld"; document.body.appendChild(ld); }
@@ -321,7 +327,9 @@ function init(){
   });
 
   // antes / después
-  const ba = $("#ba"), baR = $("#baRange");
+  const ba = $("#ba");
+  if(ba){
+  const baR = $("#baRange");
   const setBA = v=>{ ba.style.setProperty("--pos", v+"%"); baR.value = v; };
   baR.addEventListener("input", ()=>setBA(baR.value));
   let baDrag=false; const baMove=e=>{ const q=ba.getBoundingClientRect(); setBA(Math.max(0,Math.min(100,(e.clientX-q.left)/q.width*100)).toFixed(1)); };
@@ -333,6 +341,7 @@ function init(){
     const step=now=>{ const el=now-t0; while(k<seq.length-1 && el>seq[k+1][1]) {from=seq[k+1][0];k++;} if(ba.__user) return; if(k>=seq.length-1){ setBA(50); return; }
       const [v1,t1]=seq[k+1], [,tA]=seq[k]; const q=Math.min(1,(el-tA)/(t1-tA)); const ez=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2; setBA((seq[k][0]+(v1-seq[k][0])*ez).toFixed(1)); requestAnimationFrame(step); };
     setTimeout(()=>requestAnimationFrame(step), 300); } }), {threshold:.5}).observe(ba);
+  }
 
   // checklist
   const KEY = "apertura-checklist-v1";
@@ -369,7 +378,9 @@ function init(){
   new IntersectionObserver(es=>es.forEach(e=>dock.classList.toggle("show", e.isIntersecting)), {rootMargin:"-35% 0px -20% 0px"}).observe($("#clGrid"));
 
   // projects
-  const items = t.projects.items, ov = $("#pjo"), panel = $("#pjPanel");
+  const ov = $("#pjo");
+  if(ov){
+  const items = t.projects.items, panel = $("#pjPanel");
   let curP = 0, lastBtn = null;
   const fill = i=>{
     curP = (i+items.length)%items.length; const p = items[curP];
@@ -402,9 +413,11 @@ function init(){
   $("#pjPrev").addEventListener("click", ()=>fill(curP-1));
   $("#pjNext").addEventListener("click", ()=>fill(curP+1));
   addEventListener("keydown", e=>{ if(ov.hidden) return; if(e.key==="Escape") closeP(); if(e.key==="ArrowRight") fill(curP+1); if(e.key==="ArrowLeft") fill(curP-1); });
+  }
 
   // partners share
-  $("#share").addEventListener("click", async ()=>{
+  const shareBtn = $("#share");
+  if(shareBtn) shareBtn.addEventListener("click", async ()=>{
     const url = (CONFIG.siteUrl || location.href.split("#")[0]) + "#partners";
     let ok = false; try{ await navigator.clipboard.writeText(url); ok = true; }catch(e){}
     toast(ok ? t.partners.copied : url);
@@ -432,7 +445,7 @@ function init(){
   $$(".foot [data-lang]").forEach(b=>b.addEventListener("click", ()=>{ if(CONTENT[b.dataset.lang]){ LANG=b.dataset.lang; render(); } }));
 
   // scroll-driven scenes
-  const prob = $("#problema"), tags = $$(".tag", prob), dr = $("#dreveal"), inks = $("#inks");
+  const prob = $("#problema"), tags = prob ? $$(".tag", prob) : [], dr = $("#dreveal"), inks = $("#inks");
   const clamp = (v,a=0,b=1)=>Math.min(b,Math.max(a,v));
   const ease = x=>1-Math.pow(1-x,3);
   let ticking = false;
@@ -441,6 +454,7 @@ function init(){
     { const pz = $("#proceso"); if(pz){ const q = pz.getBoundingClientRect(); document.documentElement.classList.toggle("is-blue", q.top < innerHeight*.5 && q.bottom > innerHeight*.5); } }
     if(!reduced){
       // problema
+      if(prob){
       const r = prob.getBoundingClientRect(), total = r.height - innerHeight;
       if(r.bottom > 0 && r.top < innerHeight){
         const p = clamp(-r.top/Math.max(total,1));
@@ -463,6 +477,7 @@ function init(){
         dr.style.setProperty("--do", dp.toFixed(3)); dr.style.setProperty("--ds", (.6+.4*dp).toFixed(3));
         prob.style.setProperty("--to", (1-.88*dp).toFixed(3));
       }
+      }
       // servicios en móvil: se activa la fila que pasa por el centro
       if(!fine && window.__setSvc){
         const list = $("#svcList"), lr = list.getBoundingClientRect();
@@ -472,12 +487,14 @@ function init(){
         }
       }
       // tintas
+      if(inks){
       const ir = inks.getBoundingClientRect();
       if(ir.bottom>0 && ir.top<innerHeight){
         const q = clamp((innerHeight - ir.top)/(innerHeight + ir.height));
         const d = clamp(1 - q/.55);
         inks.style.setProperty("--d", d.toFixed(3));
         $$(".ink-c",inks).forEach((c,i)=>c.style.setProperty("--ir", ((i?1:-1)*d*14).toFixed(1)+"deg"));
+      }
       }
       // parallax sutil del collage en scroll (móvil incluido)
       if(scrollY < innerHeight*1.2 && !fine) pieces.forEach(pc=>pc.style.setProperty("--py", (-scrollY*+pc.dataset.depth/140).toFixed(1)));
