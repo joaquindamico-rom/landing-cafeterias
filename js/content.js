@@ -5,9 +5,9 @@ const CONFIG = {
   name: "Joaquín D'Amico",              // tu nombre o nombre del estudio
   tagline: "Diseño gráfico · Producto digital · Hospitality",
   city: "Valencia",
-  email: "hola@tudominio.com",
-  whatsapp: "34600000000",              // número sin + ni espacios
-  instagram: "https://instagram.com/tuusuario",
+  email: "joaquindamico@gmail.com",
+  whatsapp: "34624128731",              // número sin + ni espacios
+  instagram: "https://instagram.com/joaco.damico.design",
   siteUrl: "",                          // ej. "https://tudominio.com" (para el link de partners)
   defaultLang: "es"
 };
