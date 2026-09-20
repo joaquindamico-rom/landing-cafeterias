@@ -10,7 +10,14 @@ const hl = str => esc(str).replace(/\*(.+?)\*/g, '<mark class="hl">$1</mark>');
 const wa = text => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const fine = matchMedia("(hover:hover) and (pointer:fine)").matches;
-const variant = document.body.dataset.variant === "ig" ? "ig" : "full";
+const variant = ["ig","corta"].includes(document.body.dataset.variant) ? document.body.dataset.variant : "full";
+const SECTIONS = {
+  full:  { problem:true,  beforeAfter:true, checklist:true,  projects:true, why:true,  partners:true },
+  ig:    { problem:false, beforeAfter:false, checklist:true, projects:false, why:false, partners:false },
+  corta: { problem:false, beforeAfter:true,  checklist:false, projects:true, why:false, partners:false },
+};
+const show = SECTIONS[variant];
+const base = variant==="full" ? "" : "../";
 document.documentElement.lang = LANG;
 document.documentElement.classList.add("js");
 
@@ -24,7 +31,7 @@ function render(){
   const t = T();
   document.documentElement.lang = LANG;
 
-  const navLinks = t.nav.filter(([h])=> variant==="full" || h!=="#proyectos");
+  const navLinks = t.nav.filter(([h])=> (h!=="#checklist" || show.checklist) && (h!=="#proyectos" || show.projects));
   $("#head").innerHTML = `<div class="wrap">
     <a class="brand" href="#inicio">${esc(CONFIG.name)} <small>${esc(CONFIG.tagline)}</small></a>
     <nav class="nav" aria-label="Principal">${navLinks.map(([h,l])=>`<a class="nl" href="${h}">${esc(l)}</a>`).join("")}
@@ -79,7 +86,7 @@ function render(){
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track">${[0,1].map(()=>t.marquee1.map(w=>`<span>${esc(w)}</span>`).join("")).join("")}</div></div>
 
-  ${variant!=="full" ? "" : `
+  ${!show.problem ? "" : `
   <!-- 2 PROBLEMA -->
   <section class="problem${reduced?" static":""}" id="problema">
     <div class="problem-stage">
@@ -87,8 +94,9 @@ function render(){
       <div class="tags" id="tags">${t.problem.tags.map(([n,d],i)=>{const p=tagPos[i%tagPos.length];return `<span class="tag" data-d="${d?1:0}" style="--x:${p[0]};--y:${p[1]};--r:${p[2]}deg">${esc(n)}</span>`}).join("")}</div>
       <div class="design-reveal" id="dreveal"><div class="lab">${esc(t.problem.revealLab)}</div><b>${esc(t.problem.revealWord)}</b><p>${esc(t.problem.revealText)}</p></div>
     </div>
-  </section>
+  </section>`}
 
+  ${!show.beforeAfter ? "" : `
   <!-- 2b ANTES / DESPUÉS -->
   <section class="ba-sec" id="antes-despues"><div class="wrap">
     <div class="ba-head">
@@ -96,8 +104,8 @@ function render(){
       <p class="lead rv" style="font-size:17px">${hl(t.beforeAfter.text)}</p>
     </div>
     <div class="ba rv" id="ba">
-      <div class="lay after">${t.beforeAfter.afterImg?`<img src="${esc(t.beforeAfter.afterImg)}" alt="${esc(t.beforeAfter.after)}: fachada con identidad coherente" draggable="false" loading="lazy">`:facade(true)}</div>
-      <div class="lay before">${t.beforeAfter.beforeImg?`<img src="${esc(t.beforeAfter.beforeImg)}" alt="${esc(t.beforeAfter.before)}: fachada con carteles improvisados" draggable="false" loading="lazy">`:facade(false)}</div>
+      <div class="lay after">${t.beforeAfter.afterImg?`<img src="${esc(base + t.beforeAfter.afterImg)}" alt="${esc(t.beforeAfter.after)}: fachada con identidad coherente" draggable="false" loading="lazy">`:facade(true)}</div>
+      <div class="lay before">${t.beforeAfter.beforeImg?`<img src="${esc(base + t.beforeAfter.beforeImg)}" alt="${esc(t.beforeAfter.before)}: fachada con carteles improvisados" draggable="false" loading="lazy">`:facade(false)}</div>
       <span class="tagl l lab">${esc(t.beforeAfter.before)}</span><span class="tagl r lab">${esc(t.beforeAfter.after)}</span>
       <input type="range" id="baRange" min="0" max="100" value="50" aria-label="${esc(t.beforeAfter.hint)}">
       <div class="bar"><span class="knob">↔</span></div>
@@ -118,9 +126,10 @@ function render(){
         <div class="svc-cap"><b id="svcCapN"></b><span id="svcCapT"></span></div>
       </div>
     </div>
-    <div class="svc-note"><p class="rv">${esc(t.services.note)}</p><a class="btn btn-ghost mag" href="#checklist">${esc(t.services.noteCta)} <span class="arr">↓</span></a></div>
+    <div class="svc-note"><p class="rv">${esc(t.services.note)}</p>${!show.checklist ? "" : `<a class="btn btn-ghost mag" href="#checklist">${esc(t.services.noteCta)} <span class="arr">↓</span></a>`}</div>
   </div></section>
 
+  ${!show.checklist ? "" : `
   <!-- 4 CHECKLIST -->
   <section class="checklist" id="checklist" style="margin-top:clamp(80px,12vw,160px)"><div class="wrap">
     <div class="cl-layout">
@@ -149,7 +158,7 @@ function render(){
       </div>
     </div>
     <div class="cl-dock" id="clDock"><div><div class="dnum"><span id="dN">0</span><small>/<span id="dT">0</span></small></div><div class="dmsg" id="dMsg"></div></div><a class="btn btn-accent cl-help" target="_blank" rel="noopener" href="#"><span class="dock-long">${esc(t.checklist.cta)}</span><span class="dock-short">${esc(t.checklist.ctaShort)}</span> →</a></div>
-  </div></section>
+  </div></section>`}
 
   <!-- 5 PROCESO -->
   <section id="proceso" class="blue-zone" style="margin-top:clamp(40px,6vw,80px)"><div class="wrap">
@@ -159,7 +168,7 @@ function render(){
     <p class="big-quote rv">${t.process.quote}</p>
   </div></section>
 
-  ${variant!=="full" ? "" : `
+  ${!show.projects ? "" : `
   <!-- 6 PROYECTOS -->
   <section id="proyectos"><div class="wrap">
     <div class="sec-head services-intro">
@@ -177,8 +186,9 @@ function render(){
         <span class="meta"><b>${esc(p.name)}</b><span>${esc(p.type)}</span></span>
       </button>`).join("")}
     </div>
-  </div></section>
+  </div></section>`}
 
+  ${!show.why ? "" : `
   <!-- 7 POR QUÉ YO -->
   <section id="sobre-mi"><div class="wrap why">
     <div class="why-text">
@@ -216,7 +226,7 @@ function render(){
     <div class="pk-foot"><p>${esc(t.packages.note)}</p></div>
   </div></section>
 
-  ${variant!=="full" ? "" : `
+  ${!show.partners ? "" : `
   <!-- 9 PARTNERS (enlace directo: #partners) -->
   <section class="partners" id="partners"><div class="wrap">
     <div style="display:grid;gap:22px">
@@ -254,7 +264,7 @@ function render(){
     <span class="lang">${t.footer.langs.map(([k,l])=>`<button type="button" data-lang="${k}" ${CONTENT[k]?"":"disabled title=\"Próximamente\""}>${l}</button>`).join(" / ")}</span>
   </div></footer>
 
-  ${variant!=="full" ? "" : `
+  ${!show.projects ? "" : `
   <div class="pj-overlay" id="pjo" hidden role="dialog" aria-modal="true" aria-labelledby="pjTitle">
     <div class="pj-panel" id="pjPanel"><div class="wrap">
       <div class="pj-bar"><span class="lab" id="pjCount"></span><div class="nav-btns"><button type="button" id="pjPrev" aria-label="Anterior">${t.projects.prev}</button><button type="button" id="pjNext" aria-label="Siguiente">${t.projects.next}</button><button type="button" id="pjClose">${esc(t.projects.close)} ✕</button></div></div>
@@ -345,6 +355,8 @@ function init(){
 
   // checklist
   const KEY = "apertura-checklist-v1";
+  const clGrid = $("#clGrid");
+  if(clGrid){
   const boxes = $$("#clGrid input[type=checkbox]");
   let saved = null; try{ saved = JSON.parse(localStorage.getItem(KEY)); }catch(e){}
   boxes.forEach(b=>{ b.checked = saved ? !!saved[b.id] : t.checklist.example.includes(b.dataset.name); });
@@ -374,8 +386,9 @@ function init(){
     hb.addEventListener("click", ()=>{ const cl=c.classList.toggle("closed"); hb.setAttribute("aria-expanded", String(!cl)); });
   });
   updCL();
-  const dock = $("#clDock"), clSec = $("#checklist");
-  new IntersectionObserver(es=>es.forEach(e=>dock.classList.toggle("show", e.isIntersecting)), {rootMargin:"-35% 0px -20% 0px"}).observe($("#clGrid"));
+  const dock = $("#clDock");
+  new IntersectionObserver(es=>es.forEach(e=>dock.classList.toggle("show", e.isIntersecting)), {rootMargin:"-35% 0px -20% 0px"}).observe(clGrid);
+  }
 
   // projects
   const ov = $("#pjo");
