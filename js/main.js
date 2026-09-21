@@ -7,6 +7,7 @@ const $ = (s,c=document)=>c.querySelector(s);
 const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const hl = str => esc(str).replace(/\*(.+?)\*/g, '<mark class="hl">$1</mark>');
+const mark = text => `<span class="mark">${esc(text)}<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14 C 60 4, 120 18, 180 9 S 270 6, 297 12"/></svg></span>`;
 const wa = text => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const fine = matchMedia("(hover:hover) and (pointer:fine)").matches;
@@ -32,8 +33,9 @@ function render(){
   document.documentElement.lang = LANG;
 
   const navLinks = t.nav.filter(([h])=> (h!=="#checklist" || show.checklist) && (h!=="#proyectos" || show.projects));
+  const tagParts = CONFIG.tagline.split(", "); const tagLast = tagParts.pop();
   $("#head").innerHTML = `<div class="wrap">
-    <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">J</span><span class="brand-name">${esc(CONFIG.name)}<small>${esc(CONFIG.tagline)}</small></span></a>
+    <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">J</span><span class="brand-name">${esc(CONFIG.name)}<small>${esc(tagParts.join(", "))}<br>${esc(tagLast)}</small></span></a>
     <nav class="nav" aria-label="Principal">${navLinks.map(([h,l])=>`<a class="nl" href="${h}">${esc(l)}</a>`).join("")}
       <a class="btn mag" href="#contacto">${esc(t.navCta)} <span class="arr">→</span></a></nav></div>`;
 
@@ -46,13 +48,10 @@ function render(){
   <!-- 1 HERO -->
   <section class="hero" id="inicio">
     <div class="wrap">
-      <div class="hero-meta lab">${h.meta.map(m=>`<span>${esc(m)}</span>`).join("")}</div>
       <h1 class="hero-title"><span class="d d-cond l1">${words}</span><span class="sr-only"> ${esc(h.l2a)} ${esc(h.l2mark)}</span></h1>
       <div class="hero-grid">
         <div class="hero-copy">
-          <p class="d d-wide l2" aria-hidden="true">${esc(h.l2a)} <span class="mark">${esc(h.l2mark)}<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14 C 60 4, 120 18, 180 9 S 270 6, 297 12"/></svg></span></p>
-          <div class="ticker-line"><span>${esc(h.tickerPre)}</span><span class="ticker" id="ticker">${h.ticker.map((w,i)=>`<span class="${i?"":"on"}">${esc(w)}</span>`).join("")}</span></div>
-          <p class="lead">${hl(h.support)}</p>
+          <p class="d d-wide l2" aria-hidden="true">${esc(h.l2a)} ${mark(h.l2mark)}</p>
           <div class="cta-row">
             <a class="btn mag" href="#contacto">${esc(h.cta1)} <span class="arr">→</span></a>
             <a class="btn btn-ghost mag" href="#servicios">${esc(h.cta2)} <span class="arr">↓</span></a>
@@ -61,6 +60,8 @@ function render(){
             <b class="owner-label">${esc(h.ownerPre)}</b>
             <ul class="owner-grid">${h.owner.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
           </div>
+          <div class="ticker-line"><span>${esc(h.tickerPre)}</span><span class="ticker" id="ticker">${h.ticker.map((w,i)=>`<span class="${i?"":"on"}">${esc(w)}</span>`).join("")}</span></div>
+          <p class="lead">${hl(h.support)}</p>
         </div>
         <div class="collage" id="collage" aria-hidden="true">
           <div class="piece p-poster" data-depth="18"><div class="lab"><span>${esc(c.posterCap[0])}</span><span>${esc(c.posterCap[1])}</span></div><b>${esc(c.poster)}</b></div>
@@ -87,6 +88,7 @@ function render(){
     </div>
   </section>
 
+  <div class="marquee-head wrap"><h2 class="d h2">${esc(t.marqueeLabel)}</h2></div>
   <div class="marquee" aria-hidden="true"><div class="marquee-track">${[0,1].map(()=>t.marquee1.map(w=>`<span>${esc(w)}</span>`).join("")).join("")}</div></div>
 
   ${!show.problem ? "" : `
@@ -104,7 +106,7 @@ function render(){
   <section class="ba-sec" id="antes-despues"><div class="wrap">
     <div class="ba-head">
       <div style="display:grid;gap:18px"><span class="lab">${esc(t.beforeAfter.lab)}</span><h2 class="d h2 rv" style="font-size:clamp(38px,6vw,96px)">${esc(t.beforeAfter.title)}</h2></div>
-      <p class="lead rv" style="font-size:17px">${hl(t.beforeAfter.text)}</p>
+      <p class="lead rv" style="font-size:17px">${hl(t.beforeAfter.text)} <b>${mark(t.beforeAfter.textMark)}</b></p>
     </div>
     <div class="ba rv" id="ba">
       <div class="lay after">${t.beforeAfter.afterImg?`<img src="${esc(base + t.beforeAfter.afterImg)}" alt="${esc(t.beforeAfter.after)}: fachada con identidad coherente" draggable="false" loading="lazy">`:facade(true)}</div>
@@ -262,10 +264,10 @@ function render(){
     </form>
   </div></section>
 
-  <footer class="wrap"><div class="foot">
+  <footer class="site-foot"><div class="wrap"><div class="foot">
     <span>© ${new Date().getFullYear()} ${esc(CONFIG.name)} — ${esc(t.footer.rights)}</span>
     <span class="lang">${t.footer.langs.map(([k,l])=>`<button type="button" data-lang="${k}" ${CONTENT[k]?"":"disabled title=\"Próximamente\""}>${l}</button>`).join(" / ")}</span>
-  </div></footer>
+  </div></div></footer>
 
   ${!show.projects ? "" : `
   <div class="pj-overlay" id="pjo" hidden role="dialog" aria-modal="true" aria-labelledby="pjTitle">
