@@ -33,7 +33,7 @@ function render(){
 
   const navLinks = t.nav.filter(([h])=> (h!=="#checklist" || show.checklist) && (h!=="#proyectos" || show.projects));
   $("#head").innerHTML = `<div class="wrap">
-    <a class="brand" href="#inicio">${esc(CONFIG.name)} <small>${esc(CONFIG.tagline)}</small></a>
+    <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">J</span><span class="brand-name">${esc(CONFIG.name)}<small>${esc(CONFIG.tagline)}</small></span></a>
     <nav class="nav" aria-label="Principal">${navLinks.map(([h,l])=>`<a class="nl" href="${h}">${esc(l)}</a>`).join("")}
       <a class="btn mag" href="#contacto">${esc(t.navCta)} <span class="arr">→</span></a></nav></div>`;
 
@@ -51,12 +51,15 @@ function render(){
       <div class="hero-grid">
         <div class="hero-copy">
           <p class="d d-wide l2" aria-hidden="true">${esc(h.l2a)} <span class="mark">${esc(h.l2mark)}<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14 C 60 4, 120 18, 180 9 S 270 6, 297 12"/></svg></span></p>
-          <p class="owner"><b>${esc(h.ownerPre)}</b> ${h.owner.map(o=>`<s>${esc(o)}</s>`).join("")}</p>
           <div class="ticker-line"><span>${esc(h.tickerPre)}</span><span class="ticker" id="ticker">${h.ticker.map((w,i)=>`<span class="${i?"":"on"}">${esc(w)}</span>`).join("")}</span></div>
           <p class="lead">${hl(h.support)}</p>
           <div class="cta-row">
             <a class="btn mag" href="#contacto">${esc(h.cta1)} <span class="arr">→</span></a>
             <a class="btn btn-ghost mag" href="#servicios">${esc(h.cta2)} <span class="arr">↓</span></a>
+          </div>
+          <div class="owner">
+            <b class="owner-label">${esc(h.ownerPre)}</b>
+            <ul class="owner-grid">${h.owner.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
           </div>
         </div>
         <div class="collage" id="collage" aria-hidden="true">
@@ -116,11 +119,11 @@ function render(){
   <!-- 3 SERVICIOS -->
   <section id="servicios"><div class="wrap">
     <div class="sec-head services-intro">
-      <div style="display:grid;gap:18px"><span class="lab">${esc(t.services.lab)}</span><h2 class="d h2 rv">${esc(t.services.title)}</h2></div>
+      <div style="display:grid;gap:18px"><span class="lab lab-accent">${esc(t.services.lab)}</span><h2 class="d h2 rv">${esc(t.services.title)}</h2></div>
       <p class="small rv">${esc(t.services.intro)}</p>
     </div>
     <div class="svc-layout">
-      <ul class="svc-list" id="svcList">${t.services.items.map(([n,tag],i)=>`<li class="svc${i?"":" on"}" data-i="${i}" tabindex="0"><div class="svc-in"><span class="svc-n">${String(i+1).padStart(2,"0")}</span><span class="svc-name">${esc(n)}</span><span class="svc-tag">${esc(tag)}</span></div></li>`).join("")}</ul>
+      <ul class="svc-list" id="svcList">${t.services.items.map(([n],i)=>`<li class="svc${i?"":" on"}" data-i="${i}" tabindex="0"><div class="svc-in"><span class="svc-n">${String(i+1).padStart(2,"0")}</span><span class="svc-name">${esc(n)}</span></div></li>`).join("")}</ul>
       <div class="svc-panel" aria-hidden="true">
         <div class="svc-stage" id="svcStage">${[...new Set(t.services.items.map(x=>x[2]))].map((k,j)=>`<div class="pc${j?"":" on"}" data-k="${k}">${PIECES[k]()}</div>`).join("")}${t.services.items.filter(x=>x[3]).map((x,j)=>`<div class="pc" data-img="${t.services.items.indexOf(x)}"><img src="${esc(x[3])}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>`).join("")}</div>
         <div class="svc-cap"><b id="svcCapN"></b><span id="svcCapT"></span></div>
@@ -164,7 +167,7 @@ function render(){
   <section id="proceso" class="blue-zone" style="margin-top:clamp(40px,6vw,80px)"><div class="wrap">
     <div class="sec-head"><span class="lab">${esc(t.process.lab)}</span><h2 class="d h2 rv">${esc(t.process.title)}</h2></div>
     <ol class="steps">${t.process.steps.map((s,i)=>`<li class="step rv" style="transition-delay:${i*.08}s"><span class="sn">${String(i+1).padStart(2,"0")}</span><p>${esc(s)}</p></li>`).join("")}</ol>
-    <div class="proc-note">${t.process.notes.map(n=>`<span>${esc(n)}</span>`).join("")}</div>
+    ${t.process.notes.length ? `<div class="proc-note">${t.process.notes.map(n=>`<span>${esc(n)}</span>`).join("")}</div>` : ""}
     <p class="big-quote rv">${t.process.quote}</p>
   </div></section>
 
@@ -207,8 +210,6 @@ function render(){
     </div>
   </div></section>`}
 
-  <div class="marquee alt rev" aria-hidden="true"><div class="marquee-track">${[0,1].map(()=>t.marquee1.slice().reverse().map(w=>`<span>${esc(w)}</span>`).join("")).join("")}</div></div>
-
   <!-- 8 PAQUETES -->
   <section id="paquetes"><div class="wrap">
     <div class="sec-head"><span class="lab">${esc(t.packages.lab)}</span><h2 class="d h2 rv">${esc(t.packages.title)}</h2></div>
@@ -246,14 +247,16 @@ function render(){
     <span class="lab">${esc(t.final.lab)}</span>
     <h2 class="d d-cond" style="margin-top:14px">${esc(t.final.title)}<span class="what"><span id="what"></span><span class="cur"></span></span></h2>
     <form class="picker" id="picker" onsubmit="return false">
+      <p class="pick-hint">${esc(t.final.pickHint)}</p>
       <fieldset><legend class="lab">${esc(t.final.q1)}</legend><div class="chips">${t.final.opts1.map((o,i)=>`<label class="chip"><input type="radio" name="kind" id="k-${i}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join("")}</div></fieldset>
+      <p class="pick-hint">${esc(t.final.pickHint)}</p>
       <fieldset><legend class="lab">${esc(t.final.q2)}</legend><div class="chips">${t.final.opts2.map((o,i)=>`<label class="chip"><input type="radio" name="when" id="w-${i}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join("")}</div></fieldset>
       <div class="final-cta">
         <a class="btn btn-accent mag" id="tellme" target="_blank" rel="noopener" href="${wa(t.final.waText("",""))}">${esc(t.final.cta)} <span class="arr">→</span></a>
         <div class="alts"><span>${esc(t.final.or)}</span>
-          <a class="link-u" target="_blank" rel="noopener" href="${esc(CONFIG.instagram)}">Instagram</a>
-          <a class="link-u" href="mailto:${esc(CONFIG.email)}">Email</a>
-          <a class="link-u" target="_blank" rel="noopener" href="${wa(t.final.waText("",""))}">WhatsApp</a>
+          <a class="link-u" target="_blank" rel="noopener" href="${esc(CONFIG.instagram)}">Instagram ↗</a>
+          <a class="link-u" target="_blank" rel="noopener" href="${wa(t.final.waText("",""))}">WhatsApp ↗</a>
+          <a class="link-u" href="mailto:${esc(CONFIG.email)}">Email ↗</a>
         </div>
       </div>
     </form>
@@ -437,20 +440,27 @@ function init(){
   });
 
   // final: typing words + picker
-  const what = $("#what"); let wi=0, ci=0, del=false;
+  const what = $("#what"); let wi=0, ci=0, del=false, typeTimer=null, locked=false;
   const type = ()=>{
+    if(locked) return;
     const w = t.final.words[wi];
     if(reduced){ what.textContent = w; return; }
-    if(!del){ ci++; if(ci>w.length){ del=true; return setTimeout(type,1500);} }
+    if(!del){ ci++; if(ci>w.length){ del=true; typeTimer=setTimeout(type,1500); return; } }
     else { ci--; if(ci===0){ del=false; wi=(wi+1)%t.final.words.length; } }
     what.textContent = w.slice(0,ci);
-    setTimeout(type, del?35:75);
+    typeTimer = setTimeout(type, del?35:75);
   };
   what.textContent = t.final.words[0]; ci = t.final.words[0].length; del = false;
-  setTimeout(()=>{ del=true; type(); }, 2400);
+  typeTimer = setTimeout(()=>{ del=true; type(); }, 2400);
   const pick = ()=>{
     const k = $("input[name=kind]:checked"), w = $("input[name=when]:checked");
     $("#tellme").href = wa(t.final.waText(k&&k.value!=="Otro"?k.value:"", w?w.value:""));
+    const idx = k ? t.final.opts1.indexOf(k.value) : -1;
+    if(k && k.value!=="Otro" && idx>-1 && t.final.words[idx]){
+      clearTimeout(typeTimer); locked = true; what.textContent = t.final.words[idx];
+    } else if(locked){
+      locked = false; wi = 0; ci = 0; del = false; type();
+    }
   };
   $$("#picker input").forEach(i=>i.addEventListener("change", pick));
 
