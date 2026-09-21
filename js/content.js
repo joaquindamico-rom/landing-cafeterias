@@ -20,7 +20,6 @@ es: {
   nav: [["#servicios","Qué resuelvo"],["#checklist","Checklist"],["#proyectos","Proyectos"],["#paquetes","Paquetes"]],
   navCta: "Contame",
   hero: {
-    meta: ["Diseño gráfico + experiencia + hospitality", "Cafeterías · Coffee shops · Bakeries · Wine bars", "Valencia — y donde abras"],
     l1: "Vos ocupate del negocio.",
     l2a: "Yo me ocupo de que", l2mark: "se vea bien.",
     ownerPre: "Todo lo que estás resolviendo", owner: ["local","permisos","obra","proveedores","equipamiento","empleados","carta","presupuesto","apertura"],
@@ -39,7 +38,8 @@ es: {
     sticker: "ABRIMOS PRONTO · OPENING SOON · ",
     swatch: ["Tinta 01","Papel","Negro"]
   },
-  marquee1: ["Una marca también está en:","Carta","Fachada","Pizarras","Packaging","Vasos","Vajilla","Merch","Señalética","Web","Stickers"],
+  marqueeLabel: "Una marca también está en:",
+  marquee1: ["Carta","Fachada","Pizarras","Packaging","Vasos","Vajilla","Merch","Señalética","Web","Stickers"],
   problem: {
     lab: "El problema",
     title: "Abrir un café ya es bastante trabajo.",
@@ -55,7 +55,8 @@ es: {
   beforeAfter: {
     lab: "Antes / después",
     title: "Mismo local. Dos formas de presentarse.",
-    text: "El espacio es el mismo. Lo que cambia es cómo se ve, cómo se entiende y qué transmite. La identidad, la fachada, el escaparate y los detalles visuales hacen la diferencia. ¿Lo percibís igual? Tus clientes tampoco.",
+    text: "El espacio es el mismo. Lo que cambia es cómo se ve, cómo se entiende y qué transmite. La identidad, la fachada, el escaparate y los detalles visuales hacen la diferencia. ¿Lo percibís igual?",
+    textMark: "Tus clientes tampoco.",
     before: "Antes", after: "Después",
     hint: "Arrastrá para comparar",
     note: "Visualización de ejemplo.",
@@ -104,7 +105,7 @@ es: {
     title: "De la idea a la apertura.",
     steps: ["Me contás sobre tu negocio.","Vemos qué tenés y qué te hace falta.","Definimos un paquete cerrado.","Diseñamos y producimos.","Llegás a la apertura con todo listo."],
     notes: [],
-    quote: "Diseñamos pensando en cómo se ve el negocio, pero también en cómo funciona. Sabemos lo que es una barra llena, un servicio un sábado y todo lo que pasa antes de abrir."
+    quote: "Diseñamos pensando en cómo se ve el negocio, pero también en cómo funciona. <b>Sabemos lo que es una barra llena, un servicio un sábado y todo lo que pasa antes de abrir.</b>"
   },
   projects: {
     lab: "Proyectos",
