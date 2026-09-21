@@ -3,7 +3,7 @@
    ===================================================================== */
 const CONFIG = {
   name: "Joaquín D'Amico",              // tu nombre o nombre del estudio
-  tagline: "Diseño gráfico · Producto digital · Hospitality",
+  tagline: "Branding, Diseño Gráfico, Experiencia Digital",
   city: "Valencia",
   email: "joaquindamico@gmail.com",
   whatsapp: "34624128731",              // número sin + ni espacios
@@ -23,11 +23,11 @@ es: {
     meta: ["Diseño gráfico + experiencia + hospitality", "Cafeterías · Coffee shops · Bakeries · Wine bars", "Valencia — y donde abras"],
     l1: "Vos ocupate del negocio.",
     l2a: "Yo me ocupo de que", l2mark: "se vea bien.",
-    ownerPre: "Lo tuyo:", owner: ["el local","los permisos","la obra","la cafetera","el equipo","los proveedores"],
-    tickerPre: "Lo mío:",
-    ticker: ["la identidad","la carta","el rótulo","el packaging","las redes","el merch","la apertura"],
+    ownerPre: "Todo lo que estás resolviendo", owner: ["local","permisos","obra","proveedores","equipamiento","empleados","carta","presupuesto","apertura"],
+    tickerPre: "Ahí entro yo",
+    ticker: ["la identidad","cómo se ve el local","cómo se presenta la marca","cada punto de contacto"],
     // *texto* = subrayado con fibrón
-    support: "Abrir un café implica resolver *demasiadas cosas a la vez*. Identidad, carta, fachada, señalética, packaging, redes, impresos… Te ayudo a ordenar y diseñar *toda la parte visual* para que llegues al día de apertura con *todo listo y coherente*.",
+    support: "Abrir un café implica resolver *demasiadas cosas a la vez*. Ahí te ayudo a ordenar, diseñar y llevar a tierra *toda la parte visual* del proyecto, acompañándote en las decisiones para que llegues al día de apertura con una *identidad clara, coherente y lista*.",
     cta1: "Contame qué estás abriendo", cta2: "Ver qué podemos resolver"
   },
   collage: {
@@ -39,7 +39,7 @@ es: {
     sticker: "ABRIMOS PRONTO · OPENING SOON · ",
     swatch: ["Tinta 01","Papel","Negro"]
   },
-  marquee1: ["Apertura","Carta","Rótulo","Take away","Vasos","Stickers","Horarios","Wifi","Google Maps","Delantales","Imprenta","Vitrina"],
+  marquee1: ["Una marca también está en:","Carta","Fachada","Pizarras","Packaging","Vasos","Vajilla","Merch","Señalética","Web","Stickers"],
   problem: {
     lab: "El problema",
     title: "Abrir un café ya es bastante trabajo.",
@@ -54,23 +54,28 @@ es: {
   },
   beforeAfter: {
     lab: "Antes / después",
-    title: "La diferencia se ve desde la calle.",
-    text: "Mismo local, misma cafetera. Cambia cómo se presenta: el rótulo, el escaparate, los carteles y la pizarra *hablan el mismo idioma*.",
+    title: "Mismo local. Dos formas de presentarse.",
+    text: "El espacio es el mismo. Lo que cambia es cómo se ve, cómo se entiende y qué transmite. La identidad, la fachada, el escaparate y los detalles visuales hacen la diferencia. ¿Lo percibís igual? Tus clientes tampoco.",
     before: "Antes", after: "Después",
     hint: "Arrastrá para comparar",
     note: "Visualización de ejemplo.",
     beforeImg: "img/antes.jpg", afterImg: "img/despues.jpg"   // si se vacían, se usa la ilustración SVG
   },
   services: {
-    lab: "Qué puedo resolver",
-    title: "Lo que se ve, se toca y se imprime.",
-    intro: "Cada cosa de esta lista es una pieza que tu cliente va a ver, usar o llevarse.",
+    lab: "¿En qué te puedo ayudar?",
+    title: "De la identidad a todo lo que viene después.",
+    intro: "Diseñamos todo lo que tu negocio necesita para verse y sentirse coherente en cada punto de contacto.",
     items: [
-      // [nombre, etiqueta, ilustración, imagen real opcional]
-      ["Identidad visual","Base","identidad",""],["Logo y sistema gráfico","Base","identidad",""],["Tipografía y color","Base","tipo",""],["Carta / menú","Casi siempre","carta",""],
-      ["Cartelería","Casi siempre","cartel",""],["Señalética","Según local","senal",""],["Packaging","Según producto","pack",""],["Take away","Según producto","pack",""],
-      ["Templates para redes","Digital","redes",""],["Merchandising","Extra","merch",""],["Camisetas / tote bags","Extra","merch",""],["Landing simple","Digital","web",""],
-      ["Archivos para imprenta","Siempre","print",""],["Coordinación con proveedores","Si hace falta","prov",""]
+      // [nombre, etiqueta (sin uso hoy), ilustración, imagen real opcional]
+      ["Branding","","identidad",""],
+      ["Carta y menú","","carta",""],
+      ["Cartelería y señalética","","cartel",""],
+      ["Packaging y take away","","pack",""],
+      ["Redes y contenido","","redes",""],
+      ["Merch y textiles","","merch",""],
+      ["Página web","","web",""],
+      ["Piezas impresas","","print",""],
+      ["Herramientas digitales a medida","","web",""]
     ],
     note: "No necesitás contratar todo. Armamos el paquete según lo que realmente necesites para abrir.",
     noteCta: "Ver la checklist"
@@ -96,15 +101,15 @@ es: {
   },
   process: {
     lab: "Cómo trabajo",
-    title: "Cinco pasos. Sin vueltas.",
-    steps: ["Me contás qué estás abriendo.","Vemos qué ya tenés y qué falta.","Definimos un paquete cerrado.","Diseñamos y producimos.","Llegás a la apertura con todo preparado."],
-    notes: ["Briefings de 40 páginas","Reuniones eternas","Presupuestos abiertos"],
-    quote: "Sin agencia en el medio: hablás con quien diseña, y <b>quien diseña sabe lo que es una barra un sábado</b>."
+    title: "De la idea a la apertura.",
+    steps: ["Me contás sobre tu negocio.","Vemos qué tenés y qué te hace falta.","Definimos un paquete cerrado.","Diseñamos y producimos.","Llegás a la apertura con todo listo."],
+    notes: [],
+    quote: "Diseñamos pensando en cómo se ve el negocio, pero también en cómo funciona. Sabemos lo que es una barra llena, un servicio un sábado y todo lo que pasa antes de abrir."
   },
   projects: {
     lab: "Proyectos",
-    title: "Algunos trabajos que muestran cómo pienso visualmente.",
-    intro: "No todos son de cafeterías, y no voy a fingir que lo son. Son identidades, piezas impresas y productos donde se ve el criterio.",
+    title: "Algunos de los proyectos en los que trabajé.",
+    intro: "Una selección de identidades, piezas gráficas y proyectos digitales que muestran distintas formas de construir una marca.",
     open: "Ver proyecto", close: "Cerrar", prev: "←", next: "→",
     labels: { type: "Tipo", year: "Año", role: "Rol" },
     /* ---- Para usar imágenes reales: subí archivos junto al HTML (ej. img/proyecto-01.jpg)
@@ -142,16 +147,16 @@ es: {
     inkA: "Gráfica", inkB: "UX", inkX: "Café", eq: ["Gráfica","×","UX","×","Café"]
   },
   packages: {
-    lab: "Paquetes",
+    lab: "Cómo podemos trabajar juntos",
     title: "Tres formas de empezar.",
     boardTop: ["Carta de servicios", "Precios orientativos · IVA no incluido"],
     items: [
-      { name:"Apertura base", from:"Desde", price:"1.500 €", for:"Para resolver lo esencial.", list:["Identidad","Carta","Cartelería básica","Archivos finales"] },
-      { name:"Apertura", from:"Desde", price:"2.200 €", for:"Para llegar con todo el sistema listo.", list:["Identidad","Carta","Señalética","Packaging básico","Redes","Merch","Producción"], feature:true, stamp:"Lo completo" },
-      { name:"Apertura a medida", from:"", price:"Según alcance", for:"Para proyectos con web, packaging, producción u otras necesidades específicas.", list:["Web / landing","Packaging completo","Producción y proveedores","Lo que tu apertura necesite"] }
+      { name:"Apertura base", from:"Desde", price:"1.000 €", for:"Para resolver lo esencial y salir con una imagen clara.", list:["Branding","Carta y menú","Cartelería básica","Piezas impresas"] },
+      { name:"Apertura", from:"Desde", price:"1.800 €", for:"Para llegar a la apertura con un sistema más completo.", list:["Branding","Carta y menú","Cartelería y señalética","Packaging y take away","Redes y contenido","Merch y textiles"], feature:true },
+      { name:"Apertura a medida", from:"", price:"Según alcance", for:"Para proyectos que necesitan algo más específico.", list:["Página web","Packaging más completo","Herramientas digitales a medida","Piezas o necesidades específicas"] }
     ],
     cta: "Contame tu proyecto",
-    note: "Cada apertura es distinta. Estos precios sirven como referencia."
+    note: "Cada proyecto es distinto. Estos precios son orientativos y nos sirven como punto de partida."
   },
   partners: {
     lab: "Tostadores · Arquitectos · Proveedores",
@@ -164,10 +169,11 @@ es: {
   final: {
     lab: "Empecemos",
     title: "¿Qué estás por abrir?",
-    words: ["una cafetería.","un coffee shop.","una bakery.","un wine bar.","un brunch.","un tostadero."],
-    q1: "Es…", opts1: ["Cafetería","Coffee shop","Bakery","Wine bar","Brunch","Otro"],
+    words: ["una cafetería.","una bakery.","un wine bar.","un brunch.","un tostadero."],
+    q1: "Es…", opts1: ["Cafetería","Bakery","Wine bar","Brunch","Tostadero","Otro"],
+    pickHint: "Elegí una opción ↓",
     q2: "¿Para cuándo?", opts2: ["Menos de 1 mes","1–3 meses","Más de 3 meses","Todavía no sé"],
-    cta: "Contámelo", or: "O por",
+    cta: "Contámelo", or: "O si preferís, escribime por",
     waText: (a,b) => `Hola! Estoy por abrir ${a ? a.toLowerCase() : "un negocio gastronómico"}${b ? " (" + b.toLowerCase() + ")" : ""} y quiero resolver la parte visual.`
   },
   footer: { rights: "Diseño para cafeterías, coffee shops y negocios gastronómicos en Valencia.", langs: [["es","ES"],["en","EN"]] }
