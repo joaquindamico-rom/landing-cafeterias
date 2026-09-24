@@ -47,23 +47,25 @@ function render(){
   $("#main").innerHTML = `
   <!-- 1 HERO -->
   <section class="hero" id="inicio">
-    <div class="hero-bg" style="background-image:url('${esc(base + "img/hero-bg.png")}')" aria-hidden="true"></div>
-    <div class="wrap">
-      <h1 class="hero-title"><span class="d d-cond l1">${words}</span><span class="sr-only"> ${esc(h.l2a)} ${esc(h.l2mark)}</span></h1>
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <p class="d d-wide l2" aria-hidden="true">${esc(h.l2a)} ${mark(h.l2mark)}</p>
-          <div class="cta-row">
-            <a class="btn mag" href="#contacto">${esc(h.cta1)} <span class="arr">→</span></a>
-            <a class="btn btn-ghost mag" href="#servicios">${esc(h.cta2)} <span class="arr">↓</span></a>
-          </div>
-          <div class="owner">
-            <b class="owner-label">${esc(h.ownerPre)}</b>
-            <ul class="owner-grid">${h.owner.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
-          </div>
-          <div class="ticker-line"><span>${esc(h.tickerPre)}</span><span class="ticker" id="ticker">${h.ticker.map((w,i)=>`<span class="${i?"":"on"}">${esc(w)}</span>`).join("")}</span></div>
-          <p class="lead">${hl(h.support)}</p>
+    <div class="hero-photo">
+      <div class="hero-bg" style="background-image:url('${esc(base + "img/hero-bg.png")}')" aria-hidden="true"></div>
+      <div class="wrap">
+        <h1 class="hero-title"><span class="d d-cond l1">${words}</span><span class="sr-only"> ${esc(h.l2a)} ${esc(h.l2mark)}</span></h1>
+        <p class="d d-wide l2" aria-hidden="true">${esc(h.l2a)} ${mark(h.l2mark)}</p>
+        <div class="cta-row">
+          <a class="btn mag" href="#contacto">${esc(h.cta1)} <span class="arr">→</span></a>
+          <a class="btn btn-ghost mag" href="#servicios">${esc(h.cta2)} <span class="arr">↓</span></a>
         </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="owner">
+          <b class="owner-label">${esc(h.ownerPre)}</b>
+          <ul class="owner-grid">${h.owner.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
+        </div>
+        <div class="ticker-line"><span>${esc(h.tickerPre)}</span><span class="ticker" id="ticker">${h.ticker.map((w,i)=>`<span class="${i?"":"on"}">${esc(w)}</span>`).join("")}</span></div>
+        <p class="lead">${hl(h.support)}</p>
       </div>
     </div>
   </section>
