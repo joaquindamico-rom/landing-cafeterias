@@ -39,7 +39,7 @@ function render(){
     <nav class="nav" aria-label="Principal">${navLinks.map(([h,l])=>`<a class="nl" href="${h}">${esc(l)}</a>`).join("")}
       <a class="btn mag" href="#contacto">${esc(t.navCta)} <span class="arr">→</span></a></nav></div>`;
 
-  const h = t.hero, c = t.collage;
+  const h = t.hero;
   const words = h.l1.split(" ").map((w,i)=>`<span class="w" style="animation-delay:${.05+i*.07}s">${esc(w)}</span>`).join(" ");
 
   const tagPos = [[3,8,-4],[34,6,3],[64,10,-2],[97,7,5],[14,36,2],[50,33,-3],[86,38,4],[2,63,-5],[30,65,2],[62,61,3],[98,66,-3],[18,90,-2],[52,92,5],[85,88,-4]];
@@ -47,43 +47,25 @@ function render(){
   $("#main").innerHTML = `
   <!-- 1 HERO -->
   <section class="hero" id="inicio">
+    <div class="hero-photo">
+      <div class="hero-bg" style="background-image:url('${esc(base + "img/hero-bg.webp")}')" aria-hidden="true"></div>
+      <div class="wrap">
+        <h1 class="hero-title"><span class="d d-cond l1">${words}</span><span class="sr-only"> ${esc(h.l2a)} ${esc(h.l2mark)}</span></h1>
+        <p class="d d-wide l2" aria-hidden="true">${esc(h.l2a)} ${mark(h.l2mark)}</p>
+        <div class="cta-row">
+          <a class="btn mag" href="#contacto">${esc(h.cta1)} <span class="arr">→</span></a>
+          <a class="btn btn-ghost mag" href="#servicios">${esc(h.cta2)} <span class="arr">↓</span></a>
+        </div>
+      </div>
+    </div>
     <div class="wrap">
-      <h1 class="hero-title"><span class="d d-cond l1">${words}</span><span class="sr-only"> ${esc(h.l2a)} ${esc(h.l2mark)}</span></h1>
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <p class="d d-wide l2" aria-hidden="true">${esc(h.l2a)} ${mark(h.l2mark)}</p>
-          <div class="cta-row">
-            <a class="btn mag" href="#contacto">${esc(h.cta1)} <span class="arr">→</span></a>
-            <a class="btn btn-ghost mag" href="#servicios">${esc(h.cta2)} <span class="arr">↓</span></a>
-          </div>
-          <div class="owner">
-            <b class="owner-label">${esc(h.ownerPre)}</b>
-            <ul class="owner-grid">${h.owner.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
-          </div>
-          <div class="ticker-line"><span>${esc(h.tickerPre)}</span><span class="ticker" id="ticker">${h.ticker.map((w,i)=>`<span class="${i?"":"on"}">${esc(w)}</span>`).join("")}</span></div>
-          <p class="lead">${hl(h.support)}</p>
+      <div class="hero-copy">
+        <div class="owner">
+          <b class="owner-label">${esc(h.ownerPre)}</b>
+          <ul class="owner-grid">${h.owner.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
         </div>
-        <div class="collage" id="collage" aria-hidden="true">
-          <div class="piece p-poster" data-depth="18"><div class="lab"><span>${esc(c.posterCap[0])}</span><span>${esc(c.posterCap[1])}</span></div><b>${esc(c.poster)}</b></div>
-          <div class="piece p-menu" data-depth="10">
-            <h4>${esc(c.menuName)}</h4>
-            <div class="sub"><span>${esc(c.menuSub[0])}</span><span>${esc(c.menuSub[1])}</span></div>
-            <dl>${c.menu.map(([a,b])=> b===null ? `<div class="cat">${esc(a)}</div>` : `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl>
-            <div class="alg">${esc(c.allergens)}</div>
-          </div>
-          <div class="piece p-swatch" data-depth="26">
-            <span style="background:var(--accent);color:var(--on-accent)">${esc(c.swatch[0])}</span><span style="background:var(--sheet)">${esc(c.swatch[1])}</span><span style="background:var(--ink);color:var(--paper)">${esc(c.swatch[2])}</span>
-          </div>
-          <div class="piece p-ticket" data-depth="14">
-            <div class="lab">${esc(c.ticketCap)}</div>
-            <div class="big">${esc(c.ticketBig)}</div><hr>
-            ${c.ticketRows.map(([a,b])=>`<div class="row"><span>${esc(a)}</span><span>${esc(b)}</span></div>`).join("")}
-          </div>
-          <div class="piece p-sticker" data-depth="32">
-            <svg class="ring" viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs><text><textPath href="#circ">${esc(c.sticker.repeat(2))}</textPath></text></svg>
-            <div class="core" id="aim">✳</div>
-          </div>
-        </div>
+        <div class="ticker-line"><span>${esc(h.tickerPre)}</span><span class="ticker" id="ticker">${h.ticker.map((w,i)=>`<span class="${i?"":"on"}">${esc(w)}</span>`).join("")}</span></div>
+        <p class="lead">${hl(h.support)}</p>
       </div>
     </div>
   </section>
@@ -308,8 +290,10 @@ function init(){
   }, 1900);
 
   // collage parallax (mouse) + sticker aim
-  const collage = $("#collage"), pieces = $$(".piece", collage), aim = $("#aim");
-  if(fine && !reduced){
+  const collage = $("#collage");
+  const pieces = collage ? $$(".piece", collage) : [];
+  if(collage && fine && !reduced){
+    const aim = $("#aim");
     addEventListener("pointermove", e=>{
       const cx = e.clientX/innerWidth - .5, cy = e.clientY/innerHeight - .5;
       pieces.forEach(p=>{ const d=+p.dataset.depth; p.style.setProperty("--px", (-cx*d).toFixed(1)); p.style.setProperty("--py", (-cy*d).toFixed(1)); });
