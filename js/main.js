@@ -48,7 +48,7 @@ function render(){
   <!-- 1 HERO -->
   <section class="hero" id="inicio">
     <div class="hero-photo">
-      <div class="hero-bg" style="background-image:url('${esc(base + "img/hero-bg.png")}')" aria-hidden="true"></div>
+      <div class="hero-bg" style="background-image:url('${esc(base + "img/hero-bg.webp")}')" aria-hidden="true"></div>
       <div class="wrap">
         <h1 class="hero-title"><span class="d d-cond l1">${words}</span><span class="sr-only"> ${esc(h.l2a)} ${esc(h.l2mark)}</span></h1>
         <p class="d d-wide l2" aria-hidden="true">${esc(h.l2a)} ${mark(h.l2mark)}</p>
