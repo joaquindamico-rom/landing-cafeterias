@@ -360,6 +360,8 @@ b .mark{font-weight:700}
 @media (min-width:760px){.pj-imgs{grid-template-columns:repeat(2,minmax(0,1fr))}.pj-imgs .fig:first-child{grid-column:1/-1}}
 .pj-imgs .fig{position:relative;aspect-ratio:4/3;max-width:100%;overflow:hidden;background:var(--paper-2)}
 .pj-imgs .fig:first-child{aspect-ratio:16/9}
+.pj-imgs .fig.fig-natural{aspect-ratio:auto;overflow:visible}
+.pj-imgs .fig.fig-natural img{display:block;width:100%;height:auto}
 .pj-overlay.open .fig{animation:rise .8s var(--ease) both}
 .pj-overlay.open .fig:nth-child(2){animation-delay:.1s}.pj-overlay.open .fig:nth-child(3){animation-delay:.18s}
 

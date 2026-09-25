@@ -390,8 +390,9 @@ function init(){
     $("#pjCount").textContent = `${String(curP+1).padStart(2,"0")} / ${String(items.length).padStart(2,"0")}`;
     const L=t.projects.labels;
     $("#pjMeta").innerHTML = `<dt>${L.type}</dt><dd>${esc(p.type)}</dd><dt>${L.role}</dt><dd>${esc(p.role)}</dd>`;
-    const imgs = p.images && p.images.length ? p.images.map(src=>art("",p.word,[],base + src)) : [art(p.art[0],p.word,[p.type,p.year]), art(p.art[1],p.word,[p.name,"02"]), art(p.art[0].includes("ink")?"sheet halftone":"ink halftone",p.word,[p.name,"03"])];
-    $("#pjImgs").innerHTML = imgs.map(a=>`<div class="fig">${a}</div>`).join("");
+    const natural = p.images && p.images.length;
+    const imgs = natural ? p.images.map(src=>`<img src="${esc(base + src)}" alt="" loading="lazy">`) : [art(p.art[0],p.word,[p.type,p.year]), art(p.art[1],p.word,[p.name,"02"]), art(p.art[0].includes("ink")?"sheet halftone":"ink halftone",p.word,[p.name,"03"])];
+    $("#pjImgs").innerHTML = imgs.map(a=>`<div class="fig${natural?" fig-natural":""}">${a}</div>`).join("");
     panel.scrollTop = 0;
     $$(".fig",panel).forEach(f=>{f.style.animation="none";f.offsetHeight;f.style.animation="";});
   };
