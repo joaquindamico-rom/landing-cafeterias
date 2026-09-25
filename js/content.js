@@ -118,7 +118,7 @@ es: {
     items: [
       { name:"Birman", type:"Identidad visual", year:"2025", role:"Dirección de arte", size:"s7", ar:"4/3",
         cover:"img/proyectos/birman-packs.webp", hover:"img/proyectos/birman-packs.webp",
-        images:["img/proyectos/birman-packs.webp","img/proyectos/birman-local.webp","img/proyectos/birman-barra.webp"],
+        images:["img/proyectos/birman-logo.webp","img/proyectos/birman-packs.webp","img/proyectos/birman-local.webp","img/proyectos/birman-barra.webp"],
         art:["poster","sheet"], word:"B",
         desc:"Birman es una propuesta de identidad para una cervecería artesanal. Trabajé una marca con carácter, pensada para verse bien en botella, en barra y en cada punto de contacto." },
       { name:"Proyecto 02", type:"Packaging", year:"2024", role:"Diseño y producción", size:"s5", ar:"4/5", off:true,
