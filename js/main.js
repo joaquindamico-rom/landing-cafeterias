@@ -166,8 +166,8 @@ function render(){
     <div class="pj-grid">${t.projects.items.map((p,i)=>`
       <button class="pj rv ${p.size||"s6"} ${p.off?"off":""}" data-p="${i}" type="button" aria-label="${esc(t.projects.open)}: ${esc(p.name)}">
         <span class="frame" style="--ar:${p.ar||"4/3"}">
-          <span class="layer base">${art(p.art[0], p.word, [p.type, p.year], p.cover)}</span>
-          <span class="layer alt">${art(p.art[1], p.word, [p.name, "↗"], p.hover)}</span>
+          <span class="layer base">${art(p.art[0], p.word, [p.type, p.year], p.cover && base + p.cover)}</span>
+          <span class="layer alt">${art(p.art[1], p.word, [p.name, "↗"], p.hover && base + p.hover)}</span>
           <span class="open">${esc(t.projects.open)} ↗</span>
         </span>
         <span class="meta"><b>${esc(p.name)}</b><span>${esc(p.type)}</span></span>
@@ -389,9 +389,10 @@ function init(){
     $("#pjTitle").textContent = p.name; $("#pjDesc").textContent = p.desc;
     $("#pjCount").textContent = `${String(curP+1).padStart(2,"0")} / ${String(items.length).padStart(2,"0")}`;
     const L=t.projects.labels;
-    $("#pjMeta").innerHTML = `<dt>${L.type}</dt><dd>${esc(p.type)}</dd><dt>${L.year}</dt><dd>${esc(p.year)}</dd><dt>${L.role}</dt><dd>${esc(p.role)}</dd>`;
-    const imgs = p.images && p.images.length ? p.images.map(src=>art("",p.word,[],src)) : [art(p.art[0],p.word,[p.type,p.year]), art(p.art[1],p.word,[p.name,"02"]), art(p.art[0].includes("ink")?"sheet halftone":"ink halftone",p.word,[p.name,"03"])];
-    $("#pjImgs").innerHTML = imgs.map(a=>`<div class="fig">${a}</div>`).join("");
+    $("#pjMeta").innerHTML = `<dt>${L.type}</dt><dd>${esc(p.type)}</dd><dt>${L.role}</dt><dd>${esc(p.role)}</dd>`;
+    const natural = p.images && p.images.length;
+    const imgs = natural ? p.images.map(src=>`<img src="${esc(base + src)}" alt="" loading="lazy">`) : [art(p.art[0],p.word,[p.type,p.year]), art(p.art[1],p.word,[p.name,"02"]), art(p.art[0].includes("ink")?"sheet halftone":"ink halftone",p.word,[p.name,"03"])];
+    $("#pjImgs").innerHTML = imgs.map(a=>`<div class="fig${natural?" fig-natural":""}">${a}</div>`).join("");
     panel.scrollTop = 0;
     $$(".fig",panel).forEach(f=>{f.style.animation="none";f.offsetHeight;f.style.animation="";});
   };
